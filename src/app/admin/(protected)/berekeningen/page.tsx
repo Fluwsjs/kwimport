@@ -2,6 +2,8 @@ import { prisma } from "@/lib/db/prisma";
 import Link from "next/link";
 import { formatEuro } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminBerekeningenPage({
   searchParams,
 }: {

@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db/prisma";
 import { formatEuro } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const [totalLeads, totalCalcs, recentLeads] = await Promise.all([
     prisma.lead.count(),
