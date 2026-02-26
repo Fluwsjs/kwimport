@@ -47,10 +47,12 @@ coverage/
 # Netlify
 .netlify/
 
-# Screenshots en capture-scripts (lokale bestanden)
-*.png
-*.jpg
-*.jpeg
+# Screenshots en capture-scripts (lokale bestanden, niet in root)
+/*.png
+/*.jpg
+/*.jpeg
+# Afbeeldingen in public/ WEL bewaren (zie public/ hieronder)
+!public/
 capture-*.ps1
 final-capture.ps1
 website-source.html
