@@ -1,0 +1,46 @@
+{
+  "_comment": "BPM tarieven personenauto's 2024. Bron: Belastingdienst - Bpm-tarieven 2024 (art. 9 Wet BPM 1992). CO2 in g/km (WLTP).",
+  "_year": 2024,
+  "_validFrom": "2024-01-01",
+  "_validUntil": "2024-12-31",
+  "_measurementStandard": "WLTP",
+  "benzine": {
+    "_comment": "Standaard benzine / hybride (niet PHEV). Vaste voet + variabel per g/km boven drempel.",
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 79,  "vastBedrag": 0,     "variabelPer": 0 },
+      { "co2Van": 79,  "co2Tot": 106, "vastBedrag": 0,     "variabelPer": 177 },
+      { "co2Van": 106, "co2Tot": 155, "vastBedrag": 4779,  "variabelPer": 393 },
+      { "co2Van": 155, "co2Tot": 9999,"vastBedrag": 24030, "variabelPer": 737 }
+    ]
+  },
+  "diesel": {
+    "_comment": "Diesel inclusief dieseltoeslag. Toeslag staat apart in dieselSurcharge.",
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 68,  "vastBedrag": 0,     "variabelPer": 0 },
+      { "co2Van": 68,  "co2Tot": 100, "vastBedrag": 0,     "variabelPer": 177 },
+      { "co2Van": 100, "co2Tot": 145, "vastBedrag": 5664,  "variabelPer": 393 },
+      { "co2Van": 145, "co2Tot": 9999,"vastBedrag": 23319, "variabelPer": 737 }
+    ],
+    "dieselSurcharge": {
+      "enabled": true,
+      "bedragPerGram": 91.33,
+      "drempel": 0,
+      "_comment": "Dieseltoeslag per g/km CO2 (vanaf 0 g/km). Bedrag * CO2 = dieseltoeslag."
+    }
+  },
+  "elektrisch": {
+    "_comment": "Volledig elektrisch: 0% BPM (vrijstelling t/m 2024).",
+    "vrijstelling": true,
+    "vastBedrag": 0,
+    "brackets": []
+  },
+  "phev": {
+    "_comment": "PHEV had tot 2024 een apart (lager) tarief. Vanaf 2025 gelijk aan benzine.",
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 79,  "vastBedrag": 0,    "variabelPer": 0 },
+      { "co2Van": 79,  "co2Tot": 106, "vastBedrag": 0,    "variabelPer": 177 },
+      { "co2Van": 106, "co2Tot": 155, "vastBedrag": 4779, "variabelPer": 393 },
+      { "co2Van": 155, "co2Tot": 9999,"vastBedrag": 24030,"variabelPer": 737 }
+    ]
+  }
+}

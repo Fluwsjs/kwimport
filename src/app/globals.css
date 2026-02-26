@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-text;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-navy leading-tight;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-semibold text-sm transition-all duration-200 hover:bg-primary-dark active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap;
+  }
+
+  .btn-primary-lg {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white rounded-lg font-bold text-base transition-all duration-200 hover:bg-primary-dark active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-navy text-navy rounded-lg font-semibold text-sm transition-all duration-200 hover:bg-navy hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-navy/30 whitespace-nowrap;
+  }
+
+  .btn-outline-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-primary text-primary rounded-lg font-semibold text-sm transition-all duration-200 hover:bg-primary hover:text-white active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary/30 whitespace-nowrap;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-navy/70 rounded-lg font-medium text-sm transition-all duration-200 hover:bg-gray-100 hover:text-navy;
+  }
+
+  /* ── Cards ── */
+  .card {
+    @apply bg-surface rounded-xl border border-border shadow-sm p-6;
+  }
+
+  .card-lg {
+    @apply bg-surface rounded-xl border border-border shadow-sm p-8;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-md hover:border-primary/40 hover:-translate-y-0.5;
+  }
+
+  /* ── Form fields ── */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-border bg-surface text-text placeholder:text-text/35 focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary transition-all text-sm;
+  }
+
+  .input-error {
+    @apply border-red-400 focus:ring-red-300 focus:border-red-400;
+  }
+
+  .label {
+    @apply block text-sm font-semibold text-navy mb-1.5;
+  }
+
+  /* ── Typography ── */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-navy tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-base text-gray-500 mt-3 max-w-2xl leading-relaxed;
+  }
+
+  .accent-line {
+    @apply w-12 h-1 bg-primary rounded-full;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary/10 text-primary;
+  }
+
+  .badge-navy {
+    @apply badge bg-navy/10 text-navy;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 text-green-700;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-100 text-amber-700;
+  }
+
+  /* ── Disclaimer ── */
+  .disclaimer-box {
+    @apply bg-amber-50 border-l-4 border-amber-400 rounded-r-xl p-4 text-sm text-amber-800;
+  }
+
+  /* ── Section layouts ── */
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .container-main {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "_comment": "BPM tarieven personenauto's 2025. Bron: Belastingdienst - Bpm-tarieven 2025 (art. 9 Wet BPM 1992). CO2 in g/km (WLTP). PHEV heeft vanaf 2025 geen apart tarief meer.",
+  "_year": 2025,
+  "_validFrom": "2025-01-01",
+  "_validUntil": "2025-12-31",
+  "_measurementStandard": "WLTP",
+  "benzine": {
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 79,  "vastBedrag": 0,     "variabelPer": 0 },
+      { "co2Van": 79,  "co2Tot": 106, "vastBedrag": 0,     "variabelPer": 195 },
+      { "co2Van": 106, "co2Tot": 155, "vastBedrag": 5265,  "variabelPer": 432 },
+      { "co2Van": 155, "co2Tot": 9999,"vastBedrag": 26433, "variabelPer": 811 }
+    ]
+  },
+  "diesel": {
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 68,  "vastBedrag": 0,     "variabelPer": 0 },
+      { "co2Van": 68,  "co2Tot": 100, "vastBedrag": 0,     "variabelPer": 195 },
+      { "co2Van": 100, "co2Tot": 145, "vastBedrag": 6240,  "variabelPer": 432 },
+      { "co2Van": 145, "co2Tot": 9999,"vastBedrag": 25680, "variabelPer": 811 }
+    ],
+    "dieselSurcharge": {
+      "enabled": true,
+      "bedragPerGram": 100.57,
+      "drempel": 0,
+      "_comment": "Dieseltoeslag 2025 per g/km CO2."
+    }
+  },
+  "elektrisch": {
+    "vrijstelling": false,
+    "_comment": "Elektrisch krijgt vanaf 2025 een eigen (laag) tarief.",
+    "vastBedrag": 636,
+    "brackets": []
+  },
+  "phev": {
+    "_comment": "PHEV vanaf 2025 gelijk aan benzine tarief (geen apart tarief meer).",
+    "gelijkAanBrandstof": "benzine",
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 79,  "vastBedrag": 0,     "variabelPer": 0 },
+      { "co2Van": 79,  "co2Tot": 106, "vastBedrag": 0,     "variabelPer": 195 },
+      { "co2Van": 106, "co2Tot": 155, "vastBedrag": 5265,  "variabelPer": 432 },
+      { "co2Van": 155, "co2Tot": 9999,"vastBedrag": 26433, "variabelPer": 811 }
+    ]
+  }
+}

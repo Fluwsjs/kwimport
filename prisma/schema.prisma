@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          Role      @default(ADMIN)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Calculation {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  email       String?
+  input       Json
+  result      Json
+  method      String
+  vehicleType String
+  pdfPath     String?
+
+  @@index([createdAt])
+  @@index([email])
+}
+
+model Lead {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  naam      String
+  email     String
+  telefoon  String?
+  bericht   String?
+  bron      LeadSource @default(CONTACT)
+  status    LeadStatus @default(NIEUW)
+  metadata  Json?
+
+  @@index([createdAt])
+  @@index([status])
+}
+
+enum Role {
+  ADMIN
+}
+
+enum LeadSource {
+  CONTACT
+  HULP_INSCHAKELEN
+  BPM_CALCULATOR
+  BPM_VIA_LINK
+}
+
+enum LeadStatus {
+  NIEUW
+  IN_BEHANDELING
+  AFGEHANDELD
+  GESLOTEN
+}

@@ -1,0 +1,50 @@
+{
+  "_comment": "BPM tarieven personenauto's 2026. Bron: Belastingdienst (art. 9 Wet BPM 1992). CO2 in g/km (WLTP). Tarieven gepubliceerd op belastingdienst.nl/bpm.",
+  "_year": 2026,
+  "_validFrom": "2026-01-01",
+  "_validUntil": "2026-12-31",
+  "_measurementStandard": "WLTP",
+  "benzine": {
+    "_comment": "Benzine, PHEV (geen apart tarief meer), mild-hybrid.",
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 77,  "vastBedrag": 687,   "variabelPer": 2   },
+      { "co2Van": 77,  "co2Tot": 100, "vastBedrag": 841,   "variabelPer": 82  },
+      { "co2Van": 100, "co2Tot": 139, "vastBedrag": 2727,  "variabelPer": 181 },
+      { "co2Van": 139, "co2Tot": 155, "vastBedrag": 9786,  "variabelPer": 297 },
+      { "co2Van": 155, "co2Tot": 9999,"vastBedrag": 14538, "variabelPer": 594 }
+    ]
+  },
+  "diesel": {
+    "_comment": "Diesel: zelfde schijven als benzine + dieseltoeslag boven 69 g/km.",
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 77,  "vastBedrag": 687,   "variabelPer": 2   },
+      { "co2Van": 77,  "co2Tot": 100, "vastBedrag": 841,   "variabelPer": 82  },
+      { "co2Van": 100, "co2Tot": 139, "vastBedrag": 2727,  "variabelPer": 181 },
+      { "co2Van": 139, "co2Tot": 155, "vastBedrag": 9786,  "variabelPer": 297 },
+      { "co2Van": 155, "co2Tot": 9999,"vastBedrag": 14538, "variabelPer": 594 }
+    ],
+    "dieselSurcharge": {
+      "enabled": true,
+      "bedragPerGram": 114.83,
+      "drempel": 69,
+      "_comment": "Dieseltoeslag 2026: (CO2 - 69) × €114,83 per gram boven 69 g/km."
+    }
+  },
+  "elektrisch": {
+    "_comment": "Elektrisch: vast laag tarief vanaf 2025. Verificeer jaarlijks via Belastingdienst.",
+    "vrijstelling": false,
+    "vastBedrag": 636,
+    "brackets": []
+  },
+  "phev": {
+    "_comment": "PHEV heeft vanaf 2025 geen apart tarief meer — gelijk aan benzine.",
+    "gelijkAanBrandstof": "benzine",
+    "brackets": [
+      { "co2Van": 0,   "co2Tot": 77,  "vastBedrag": 687,   "variabelPer": 2   },
+      { "co2Van": 77,  "co2Tot": 100, "vastBedrag": 841,   "variabelPer": 82  },
+      { "co2Van": 100, "co2Tot": 139, "vastBedrag": 2727,  "variabelPer": 181 },
+      { "co2Van": 139, "co2Tot": 155, "vastBedrag": 9786,  "variabelPer": 297 },
+      { "co2Van": 155, "co2Tot": 9999,"vastBedrag": 14538, "variabelPer": 594 }
+    ]
+  }
+}
