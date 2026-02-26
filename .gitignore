@@ -46,3 +46,16 @@ coverage/
 
 # Netlify
 .netlify/
+
+# Screenshots en capture-scripts (lokale bestanden)
+*.png
+*.jpg
+*.jpeg
+capture-*.ps1
+final-capture.ps1
+website-source.html
+gijs-screenshot-*.png
+competitor-screenshot-*.png
+final-*.png
+screenshot-*.png
+website-*.png
