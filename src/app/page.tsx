@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
-import { QuickBpmCalculator } from "@/components/bpm/QuickBpmCalculator";
+import { HeroTabCard } from "@/components/home/HeroTabCard";
 
 export const metadata: Metadata = {
   title: "Import Zelf Regelen & BPM Berekenen | KW Automotive",
@@ -14,61 +14,47 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-[600px] md:min-h-[680px] flex items-center overflow-hidden">
-
+      <section className="relative overflow-hidden">
         {/* Background photo */}
-        <Image
-          src="/bg.png"
-          alt="Automotive achtergrond"
-          fill
-          priority
-          className="object-cover object-right"
-          sizes="100vw"
-        />
+        <div className="relative min-h-[480px] md:min-h-[560px]">
+          <Image
+            src="/bg.png"
+            alt="Auto import achtergrond"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          {/* Lichte overlay zodat foto goed zichtbaar blijft */}
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-navy/35 to-navy/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy/60 via-navy/20 to-transparent" />
 
-        {/* Strong overlay — foto is subtiel aanwezig, tekst blijft voorop */}
-        <div className="absolute inset-0 bg-navy/85" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/40 via-transparent to-transparent" />
-
-        <div className="container-main relative z-10 py-20 md:py-24">
-          <div className="grid lg:grid-cols-[1fr_420px] gap-10 xl:gap-16 items-center">
-
-            {/* Left: copy — simplified */}
-            <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 rounded-full px-3.5 py-1.5 mb-6">
-                <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-                <span className="text-primary text-xs font-bold tracking-wide">BPM 2025 tarieven bijgewerkt</span>
-              </div>
-
-              <h1 className="text-4xl md:text-5xl xl:text-[3.5rem] font-black text-white leading-[1.08] mb-5 tracking-tight">
-                Import zelf regelen.
-                <br />
-                <span className="text-primary">BPM direct</span> berekenen.
-              </h1>
-
-              <p className="text-white/55 text-base md:text-lg leading-relaxed mb-8">
-                Gratis BPM-calculator op basis van officiële Belastingdienst-tabellen.
-                Van aankoop in het buitenland tot Nederlands kenteken.
+          {/* Tekst — linksboven */}
+          <div className="relative z-10 container-main pt-16 md:pt-24 pb-36 md:pb-44">
+            <div className="max-w-lg">
+              <p className="text-white/80 text-sm md:text-base mb-4 font-medium drop-shadow">
+                Dé specialist in auto-import vanuit Europa. Veilig, snel en vertrouwd.
               </p>
-
+              <h1 className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight mb-7 drop-shadow-lg">
+                Auto importbegeleiding<br />en BPM aangifte
+              </h1>
               <div className="flex flex-wrap gap-3">
-                <Link href="/bpm-calculator" className="btn-primary-lg">
+                <Link href="/bpm-calculator" className="inline-flex items-center gap-2 px-6 py-3.5 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg transition-colors text-sm shadow-lg">
                   Bereken uw BPM
-                  <Icon name="arrow-right" size={18} />
+                  <Icon name="arrow-right" size={16} />
                 </Link>
-                <Link
-                  href="/import-stappenplan"
-                  className="inline-flex items-center gap-2 px-7 py-4 border border-white/25 text-white rounded-lg font-semibold text-base transition-all hover:border-white/60 hover:bg-white/8"
-                >
-                  Stappenplan
+                <Link href="/import-stappenplan" className="inline-flex items-center gap-2 px-6 py-3.5 border border-white/40 text-white hover:border-white/70 hover:bg-white/10 font-semibold rounded-lg transition-all text-sm backdrop-blur-sm">
+                  Stappenplan bekijken
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Right: Quick BPM calculator */}
-            <div className="w-full">
-              <QuickBpmCalculator />
-            </div>
+        {/* Tab-card — overlapt onderkant van de foto */}
+        <div className="relative z-10 -mt-28 md:-mt-32 pb-0">
+          <div className="container-main">
+            <HeroTabCard />
           </div>
         </div>
       </section>
