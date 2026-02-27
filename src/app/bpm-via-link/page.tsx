@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BpmViaLinkForm } from "./BpmViaLinkForm";
+import { PageHero } from "@/components/layout/PageHero";
 
 export const metadata: Metadata = {
   title: "BPM Berekenen via Advertentielink – Beta",
@@ -10,22 +11,12 @@ export const metadata: Metadata = {
 export default function BpmViaLinkPage() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-white border-b border-muted/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center gap-3 mb-3">
-            <h1 className="text-2xl md:text-3xl font-bold text-navy">
-              BPM via Advertentielink
-            </h1>
-            <span className="text-xs bg-amber-100 text-amber-700 border border-amber-200 px-2.5 py-1 rounded-full font-medium">
-              Beta
-            </span>
-          </div>
-          <p className="text-navy/60">
-            Plak een advertentielink van mobile.de of AutoScout24. Wij proberen automatisch de
-            voertuiggegevens te extraheren en de BPM te berekenen.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        title="BPM via Advertentielink"
+        description="Plak een advertentielink van mobile.de of AutoScout24. Wij extraheren automatisch de voertuiggegevens en berekenen de BPM."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "BPM via link" }]}
+        badge="Beta"
+      />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="disclaimer-box mb-8">

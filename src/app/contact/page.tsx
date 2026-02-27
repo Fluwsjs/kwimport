@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ContactForm } from "./ContactForm";
+import { PageHero } from "@/components/layout/PageHero";
 
 export const metadata: Metadata = {
   title: "Contact & Offerte Aanvragen – KW Automotive Import",
@@ -10,16 +11,11 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-white border-b border-muted/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-navy mb-2">
-            Contact & Offerte
-          </h1>
-          <p className="text-navy/60">
-            Stel uw vraag of vraag een vrijblijvende offerte aan. Wij reageren doorgaans binnen één werkdag.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        title="Contact & Offerte"
+        description="Stel uw vraag of vraag een vrijblijvende offerte aan. Wij reageren doorgaans binnen één werkdag."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+      />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

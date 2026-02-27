@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
+import { PageHero } from "@/components/layout/PageHero";
 
 export const metadata: Metadata = {
   title: "Import Stappenplan – Auto Importeren naar Nederland",
@@ -86,19 +87,11 @@ const STAPPEN = [
 export default function ImportStappenplanPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-gray-50 border-b border-gray-100">
-        <div className="container-main py-10">
-          <div className="accent-line mb-4" />
-          <h1 className="text-3xl md:text-4xl font-black text-navy mb-3 tracking-tight">
-            Import Stappenplan
-          </h1>
-          <p className="text-gray-500 max-w-xl">
-            Alles wat u moet weten over het importeren van een auto naar Nederland.
-            Van zoeken tot kenteken.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        title="Import Stappenplan"
+        description="Alles wat u moet weten over het importeren van een auto naar Nederland. Van zoeken tot kenteken."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Import Stappenplan" }]}
+      />
 
       <div className="container-main section-padding">
         {/* Quick nav */}
@@ -171,25 +164,28 @@ export default function ImportStappenplanPage() {
         </div>
 
         {/* CTA */}
-        <div className="mt-10 bg-navy rounded-2xl p-8 md:p-10">
+        <div className="mt-10 bg-primary rounded-2xl p-8 md:p-10">
           <div className="grid md:grid-cols-2 gap-6 items-center">
             <div>
               <h2 className="text-xl font-black text-white mb-2 tracking-tight">
                 Klaar om de BPM te berekenen?
               </h2>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/75 text-sm">
                 Gebruik onze gratis BPM Calculator voor een nauwkeurige schatting
                 vóór uw aankoop.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link href="/bpm-calculator" className="btn-primary">
+              <Link
+                href="/bpm-calculator"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary rounded-lg font-bold text-sm hover:bg-gray-50 transition-colors"
+              >
                 <Icon name="calculator" size={16} />
                 BPM Calculator
               </Link>
               <Link
                 href="/hulp-inschakelen"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/25 text-white rounded-lg text-sm font-semibold hover:bg-white/10 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/40 text-white rounded-lg text-sm font-semibold hover:bg-white/10 transition-colors"
               >
                 Import laten uitvoeren
               </Link>

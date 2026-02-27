@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BpmWizard } from "@/components/bpm/BpmWizard";
 import { Icon } from "@/components/ui/Icon";
+import { PageHero } from "@/components/layout/PageHero";
 
 export const metadata: Metadata = {
   title: "BPM Calculator 2025 – Bereken uw BPM bij auto-import",
@@ -11,19 +12,11 @@ export const metadata: Metadata = {
 export default function BpmCalculatorPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="container-main py-10">
-          <div className="accent-line mb-4" />
-          <h1 className="text-3xl md:text-4xl font-black text-navy mb-3 tracking-tight">
-            BPM Calculator
-          </h1>
-          <p className="text-gray-500 max-w-xl">
-            Bereken de verschuldigde BPM voor uw importauto in vier stappen.
-            Kies de meest voordelige afschrijvingsmethode.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        title="BPM Calculator"
+        description="Bereken de verschuldigde BPM voor uw importauto in vier stappen. Kies de meest voordelige afschrijvingsmethode."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "BPM Calculator" }]}
+      />
 
       <div className="container-main py-10 max-w-4xl">
         {/* Disclaimer */}

@@ -26,17 +26,31 @@ export function Topbar() {
     <header className="sticky top-0 z-50">
 
       {/* ── USP balk ── */}
-      <div className="bg-navy hidden md:block">
+      <div className="bg-primary hidden md:block">
         <div className="container-main">
-          <div className="flex items-center justify-center gap-8 py-2">
-            {USP_ITEMS.map((item) => (
-              <div key={item} className="flex items-center gap-1.5 text-white/70 text-xs">
-                <svg className="w-3 h-3 text-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
-                {item}
-              </div>
-            ))}
+          <div className="flex items-center justify-between py-2">
+            {/* USP items links */}
+            <div className="flex items-center gap-6">
+              {USP_ITEMS.map((item) => (
+                <div key={item} className="flex items-center gap-1.5 text-white/90 text-xs">
+                  <svg className="w-3 h-3 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                  {item}
+                </div>
+              ))}
+            </div>
+            {/* Telefoon + tijden rechts */}
+            <div className="flex items-center gap-5 text-white/90 text-xs">
+              <span className="flex items-center gap-1.5">
+                <Icon name="clock" size={12} className="text-white/70 shrink-0" />
+                Ma–Vr: 9:00–17:00
+              </span>
+              <a href="tel:+31243030400" className="flex items-center gap-1.5 hover:text-white transition-colors font-semibold">
+                <Icon name="phone" size={12} className="text-white/70 shrink-0" />
+                +31 24 303 0400
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -48,12 +62,12 @@ export function Topbar() {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 shrink-0 group">
-              <div className="w-9 h-9 bg-navy rounded-lg flex items-center justify-center font-black text-white text-sm tracking-tight group-hover:bg-primary transition-colors">
+              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center font-black text-white text-sm tracking-tight group-hover:bg-primary-dark transition-colors shadow-sm">
                 KW
               </div>
               <div className="leading-none">
-                <div className="text-navy font-bold text-sm tracking-tight">KW Automotive</div>
-                <div className="text-gray-400 text-[10px] font-medium tracking-wider uppercase mt-0.5">Import &amp; BPM</div>
+                <div className="text-navy font-bold text-sm tracking-tight uppercase">KW Automotive</div>
+                <div className="text-gray-400 text-[10px] font-medium tracking-wider mt-0.5">Import &amp; BPM</div>
               </div>
             </Link>
 
@@ -73,11 +87,11 @@ export function Topbar() {
             {/* Telefoon-knop + hamburger */}
             <div className="flex items-center gap-3">
               <a
-                href="tel:+31600000000"
-                className="hidden sm:flex w-10 h-10 bg-navy hover:bg-primary transition-colors rounded-full items-center justify-center"
-                aria-label="Bel ons"
+                href="tel:+31243030400"
+                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold rounded-lg transition-colors"
               >
-                <Icon name="phone" size={16} className="text-white" />
+                <Icon name="phone" size={14} className="text-white" />
+                <span className="hidden md:inline">Bel ons</span>
               </a>
               <button
                 onClick={() => setOpen(!open)}
@@ -107,7 +121,7 @@ export function Topbar() {
                 </Link>
               ))}
               <div className="pt-3 mt-1 border-t border-gray-100">
-                <a href="tel:+31600000000" className="btn-primary w-full justify-center">
+                <a href="tel:+31243030400" className="btn-primary w-full justify-center">
                   <Icon name="phone" size={16} />
                   Bel ons
                 </a>

@@ -10,10 +10,10 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#0EA5A4",
-          dark: "#0B8C8B",
+          DEFAULT: "#008dc5",
+          dark: "#0070a0",
         },
-        accent: "#38BDF8",
+        accent: "#00b4e6",
         navy: "#0B1F33",
         "navy-2": "#102A43",
         background: "#F6F8FB",
@@ -23,7 +23,7 @@ const config: Config = {
         text: "#0F172A",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Montserrat", "system-ui", "sans-serif"],
       },
       borderRadius: {
         card: "12px",

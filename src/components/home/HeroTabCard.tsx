@@ -141,17 +141,18 @@ export function HeroTabCard() {
     <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100">
 
       {/* ── Tabs ── */}
-      <div className="flex border-b border-gray-100">
+      <div className="flex">
         {(["berekenen", "link"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`relative flex-1 px-4 py-4 text-[11px] font-bold uppercase tracking-wider transition-colors ${
-              tab === t ? "text-navy" : "text-gray-400 hover:text-gray-600"
+            className={`flex-1 px-4 py-4 text-[11px] font-bold uppercase tracking-wider transition-colors border-b-2 ${
+              tab === t
+                ? "bg-navy text-white border-navy"
+                : "bg-gray-50 text-gray-400 hover:text-gray-600 hover:bg-gray-100 border-gray-100"
             }`}
           >
             {t === "berekenen" ? "BPM Snel Zelf Berekenen" : "BPM via Advertentielink"}
-            {tab === t && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />}
           </button>
         ))}
       </div>
@@ -174,7 +175,7 @@ export function HeroTabCard() {
               <EuroInput value={vraagprijs} onChange={(v) => { setVraag(v); setCalcResult(null); }} placeholder="bijv. 25000" />
             </Field>
           </div>
-          <button onClick={bereken} disabled={!datum || calcLoading} className="mt-5 w-full py-3.5 bg-primary hover:bg-primary-dark disabled:opacity-40 text-white font-bold text-sm rounded-lg transition-colors">
+          <button onClick={bereken} disabled={!datum || calcLoading} className="mt-5 w-full py-4 bg-primary hover:bg-primary-dark disabled:opacity-40 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors shadow-md shadow-primary/30">
             {calcLoading ? "Berekenen..." : "Bereken BPM"}
           </button>
           {calcResult && (
@@ -305,7 +306,7 @@ export function HeroTabCard() {
               <button
                 onClick={berekenViaLink}
                 disabled={!editDatum}
-                className="w-full py-3.5 bg-primary hover:bg-primary-dark disabled:opacity-40 text-white font-bold text-sm rounded-lg transition-colors"
+                className="w-full py-4 bg-primary hover:bg-primary-dark disabled:opacity-40 text-white font-bold text-sm uppercase tracking-widest rounded-lg transition-colors shadow-md shadow-primary/30"
               >
                 Bereken BPM
               </button>
@@ -337,8 +338,7 @@ const inputCls =
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[11px] font-bold text-primary uppercase tracking-widest mb-4 flex items-center gap-2">
-      <span className="w-3 h-0.5 bg-primary inline-block" />
+    <p className="text-[11px] font-bold text-primary uppercase tracking-widest mb-4 border-l-4 border-primary pl-3">
       {children}
     </p>
   );
@@ -356,10 +356,10 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 
 function BrandstofToggle({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
-    <div className="flex gap-2">
-      {[{ val: "benzine", label: "Benzine" }, { val: "diesel", label: "Diesel" }].map(({ val, label }) => (
+    <div className="flex gap-1.5">
+      {[{ val: "benzine", label: "Benzine" }, { val: "phev", label: "PHEV" }, { val: "diesel", label: "Diesel" }].map(({ val, label }) => (
         <button key={val} type="button" onClick={() => onChange(val)}
-          className={`flex-1 py-2.5 rounded-lg text-xs font-bold border transition-all ${value === val ? "bg-primary text-white border-primary" : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"}`}>
+          className={`flex-1 py-2.5 rounded-lg text-[11px] font-bold border transition-all ${value === val ? "bg-primary text-white border-primary" : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"}`}>
           {label}
         </button>
       ))}

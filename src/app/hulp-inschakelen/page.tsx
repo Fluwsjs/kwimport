@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
+import { PageHero } from "@/components/layout/PageHero";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
 
 export const metadata: Metadata = {
   title: "Hulp Inschakelen bij Auto-Import – KW Automotive",
@@ -57,18 +59,11 @@ const PAKKETTEN = [
 export default function HulpInschakelenPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Page header */}
-      <div className="bg-gray-50 border-b border-gray-100">
-        <div className="container-main py-10">
-          <div className="accent-line mb-4" />
-          <h1 className="text-3xl md:text-4xl font-black text-navy mb-3 tracking-tight">
-            Hulp Inschakelen
-          </h1>
-          <p className="text-gray-500 max-w-xl">
-            Kies het pakket dat bij uw situatie past. Wij regelen de details zodat u kunt genieten van uw nieuwe auto.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        title="Hulp Inschakelen"
+        description="Kies het pakket dat bij uw situatie past. Wij regelen de details zodat u kunt genieten van uw nieuwe auto."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Hulp Inschakelen" }]}
+      />
 
       <div className="container-main section-padding">
         {/* Pakketten */}
@@ -149,10 +144,19 @@ export default function HulpInschakelenPage() {
         </div>
 
         {/* FAQ */}
-        <div className="max-w-2xl">
-          <h2 className="text-xl font-black text-navy mb-6 tracking-tight">Veelgestelde vragen</h2>
-          <div className="space-y-5">
-            {[
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <div>
+            <div className="accent-line mb-4" />
+            <h2 className="text-2xl font-black text-navy mb-4 tracking-tight">Waar wij voor staan</h2>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              De beste service voor een eerlijke prijs. Het aanvragen van hulp bij uw auto-import
+              doen wij snel en transparant. Wij staan voor kwaliteit en duidelijkheid. Elke aanvraag
+              wordt volledig beoordeeld voordat wij aan de slag gaan.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-xl font-black text-navy mb-5 tracking-tight">Veelgestelde vragen</h2>
+            <FaqAccordion items={[
               {
                 q: "Hoe lang duurt het importproces?",
                 a: "Gemiddeld 2–4 weken, afhankelijk van de BPM-afhandeling door de Belastingdienst en de RDW-procedure. Wij houden u op de hoogte.",
@@ -165,12 +169,15 @@ export default function HulpInschakelenPage() {
                 q: "Is een taxatierapport altijd nodig?",
                 a: "Nee. Voor de meeste importauto's volstaat de forfaitaire methode. Een taxatierapport kan voordeliger uitpakken bij oudere of bijzondere voertuigen.",
               },
-            ].map((faq, i) => (
-              <div key={i} className="pb-5 border-b border-gray-100 last:border-0">
-                <h3 className="font-bold text-navy text-sm mb-2">{faq.q}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
+              {
+                q: "Wat zijn de kosten bovenop het pakketprijs?",
+                a: "Er zijn geen verborgen kosten. De pakketprijs is inclusief alle werkzaamheden die beschreven staan. Externe kosten zoals RDW-leges of taxatierapport zijn apart.",
+              },
+              {
+                q: "Hoe verkoop ik een voertuig aan KW Automotive?",
+                a: "Neem contact op via het contactformulier of bel ons. Wij beoordelen uw voertuig en doen u een eerlijk voorstel.",
+              },
+            ]} />
           </div>
         </div>
       </div>
