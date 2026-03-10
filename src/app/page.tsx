@@ -331,20 +331,28 @@ export default function HomePage() {
       </section>
 
       {/* ── Stats balk ── */}
-      <section className="bg-navy-2 py-16">
-        <div className="container-main">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
+      <section className="bg-navy relative overflow-hidden">
+        {/* Subtiele achtergrond accent */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent" />
+
+        <div className="container-main py-16 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/8">
             {[
-              { value: "500+",   label: "Tevreden klanten" },
-              { value: "1000+",  label: "BPM berekeningen" },
-              { value: "10+",    label: "Jaar ervaring" },
-              { value: "3",      label: "Afschrijvingsmethoden" },
+              { value: "500+",  label: "Tevreden klanten",      icon: "user",   desc: "Particulieren & bedrijven" },
+              { value: "1000+", label: "BPM berekeningen",      icon: "zap",    desc: "Correct en snel geregeld" },
+              { value: "10+",   label: "Jaar ervaring",         icon: "shield", desc: "Erkend importspecialist" },
+              { value: "3",     label: "Afschrijvingsmethoden", icon: "check",  desc: "Forfaitair, koerslijst & taxatie" },
             ].map((stat) => (
-              <div key={stat.label} className="text-center px-6">
-                <div className="text-5xl md:text-6xl font-black text-white mb-2 tracking-tight">
+              <div key={stat.label} className="bg-navy-2 hover:bg-navy-2/80 transition-colors px-6 py-10 text-center group">
+                <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/25 transition-colors">
+                  <Icon name={stat.icon as "user" | "zap" | "shield" | "check"} size={18} className="text-primary" />
+                </div>
+                <div className="text-4xl md:text-5xl font-black text-white tracking-tight mb-1">
                   {stat.value}
                 </div>
-                <div className="text-white/40 text-sm font-medium uppercase tracking-wide">{stat.label}</div>
+                <div className="text-white/80 text-sm font-bold mb-1">{stat.label}</div>
+                <div className="text-white/35 text-[11px]">{stat.desc}</div>
               </div>
             ))}
           </div>
@@ -352,28 +360,66 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA bottom ── */}
-      <section className="bg-gradient-to-br from-primary to-primary-dark py-20">
-        <div className="container-main text-center">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight">
-            Klaar om uw BPM te berekenen?
-          </h2>
-          <p className="text-white/75 mb-10 max-w-md mx-auto leading-relaxed">
-            Gratis, direct en nauwkeurig. Geen registratie vereist.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              href="/bpm-calculator"
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-white text-primary rounded-lg font-bold text-base hover:bg-gray-50 transition-colors shadow-lg"
-            >
-              Start BPM berekening
-              <Icon name="arrow-right" size={18} />
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-white/15 hover:bg-white/25 text-white rounded-lg font-bold text-base transition-colors border border-white/20"
-            >
-              Offerte aanvragen
-            </Link>
+      <section className="relative overflow-hidden bg-navy">
+        {/* Achtergrond lagen */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary-dark" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-white/5 pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+
+        <div className="relative z-10 container-main py-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+            {/* Links: tekst + knoppen */}
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/15 text-white text-xs font-bold rounded-full mb-5 border border-white/20">
+                <Icon name="zap" size={11} />
+                Gratis &amp; geen registratie
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight leading-tight">
+                Klaar om uw BPM<br />te berekenen?
+              </h2>
+              <p className="text-white/70 mb-8 text-base leading-relaxed max-w-md">
+                Bereken in 30 seconden uw BPM — gratis, direct en nauwkeurig.
+                Of laat ons het volledig voor u regelen.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/bpm-calculator"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-white text-primary rounded-lg font-bold text-sm hover:bg-gray-50 transition-colors shadow-xl shadow-navy/30"
+                >
+                  Start BPM berekening
+                  <Icon name="arrow-right" size={16} />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-lg font-bold text-sm transition-colors border border-white/25"
+                >
+                  Offerte aanvragen
+                </Link>
+              </div>
+            </div>
+
+            {/* Rechts: USP lijst */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { icon: "zap",    title: "Gratis calculator",     desc: "Direct online, geen account nodig" },
+                { icon: "shield", title: "Erkend kantoor",        desc: "Officieel erkend voor BPM-aangiften" },
+                { icon: "clock",  title: "Snelle afhandeling",    desc: "Doorgaans binnen 5 werkdagen" },
+                { icon: "user",   title: "Persoonlijk contact",   desc: "Vaste specialist, directe lijn" },
+              ].map((item) => (
+                <div key={item.title} className="flex items-start gap-3 bg-white/10 rounded-xl p-4 border border-white/10">
+                  <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center shrink-0 mt-0.5">
+                    <Icon name={item.icon as "zap" | "shield" | "clock" | "user"} size={15} className="text-white" />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold text-sm mb-0.5">{item.title}</div>
+                    <div className="text-white/55 text-xs leading-relaxed">{item.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
