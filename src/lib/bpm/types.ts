@@ -28,15 +28,33 @@ export interface BpmInput {
   // Afschrijving (alleen bij gebruikt)
   afschrijvingsMethode?: AfschrijvingsMethode;
 
-  // Koerslijst methode
+  /**
+   * Koerslijst-methode: originele consumentenprijs (nieuwprijs) van het voertuig.
+   * Dit is de catalogusprijs op het moment van eerste toelating, NIET de huidige marktwaarde.
+   * Gebruik `inkoopwaarde` voor de actuele handelswaarde uit de koerslijst.
+   */
   consumentenprijs?: number;
+
+  /**
+   * Koerslijst-methode: actuele handelsinkoopwaarde conform erkende koerslijst
+   * (bijv. XRAY, Eurotaxglass). Afschrijving = 1 − (inkoopwaarde / consumentenprijs).
+   */
   inkoopwaarde?: number;
 
-  // Taxatierapport methode
+  /**
+   * Taxatierapport-methode: getaxeerde waarde door erkend taxateur.
+   * Afschrijving = 1 − (taxatiewaarde / consumentenprijs).
+   */
   taxatiewaarde?: number;
 
   // Optioneel: handmatig tariefjaar kiezen (anders automatisch bepaald)
   tariefjaar?: number;
+
+  /**
+   * Wanneer true: berekenBpmOptimaal() probeert automatisch het meest gunstige
+   * tariefjaar × CO₂-methode te selecteren. Wordt genegeerd door berekenBpm().
+   */
+  optimaliseer?: boolean;
 }
 
 export interface TariefVergelijkingRegel {
@@ -44,6 +62,23 @@ export interface TariefVergelijkingRegel {
   brutoBpm: number;
   totaalBpm: number;
   gebruikt: boolean;
+}
+
+/**
+ * Eén geëvalueerd scenario in de optimizer (berekenBpmOptimaal).
+ * Elke combinatie van tariefjaar × CO₂-meetmethode is één scenario.
+ */
+export interface BpmScenario {
+  tariefjaar: number;
+  co2Methode: Meetmethode;
+  co2Waarde: number;
+  brutoBpm: number;
+  dieselToeslag?: number;
+  restBpm: number;
+  /** True als dit scenario het laagste geldige restBpm heeft. */
+  geselecteerd: boolean;
+  /** Waarom dit scenario geldig of ongeldig is. */
+  reden: string;
 }
 
 export interface BpmResultaat {
@@ -58,6 +93,13 @@ export interface BpmResultaat {
   /** Vergelijking van alle beschikbare tariefjaartabellen (gebruikt auto). */
   tariefVergelijking?: TariefVergelijkingRegel[];
 
+  /**
+   * Alle geëvalueerde scenario's wanneer berekenBpmOptimaal() is gebruikt.
+   * Geeft volledige transparantie over waarom een bepaald tariefjaar/CO₂-methode
+   * gekozen is.
+   */
+  scenarios?: BpmScenario[];
+
   aannames: string[];
   waarschuwingen: string[];
   details: {
@@ -65,6 +107,7 @@ export interface BpmResultaat {
     co2Methode: Meetmethode;
     brandstof: Brandstof;
     leeftijdMaanden?: number;
+    /** Leesbare string representatie van de schijfberekening. */
     schijfBerekening?: string;
     kilometerstand?: number;
     statusOverridden?: boolean;

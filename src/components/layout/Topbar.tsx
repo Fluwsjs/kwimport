@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -61,14 +62,15 @@ export function Topbar() {
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 shrink-0 group">
-              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center font-black text-white text-sm tracking-tight group-hover:bg-primary-dark transition-colors shadow-sm">
-                KW
-              </div>
-              <div className="leading-none">
-                <div className="text-navy font-bold text-sm tracking-tight uppercase">KW Automotive</div>
-                <div className="text-gray-400 text-[10px] font-medium tracking-wider mt-0.5">Import &amp; BPM</div>
-              </div>
+            <Link href="/" className="flex items-center shrink-0">
+              <Image
+                src="/logo.png"
+                alt="KW Automotive logo"
+                width={160}
+                height={48}
+                className="h-10 w-auto object-contain"
+                priority
+              />
             </Link>
 
             {/* Desktop nav */}

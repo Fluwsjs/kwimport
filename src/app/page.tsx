@@ -15,8 +15,7 @@ export default function HomePage() {
     <>
       {/* ── Hero ── */}
       <section className="relative overflow-hidden">
-        {/* Background photo */}
-        <div className="relative min-h-[520px] md:min-h-[620px]">
+        <div className="relative min-h-[600px] md:min-h-[700px]">
           <Image
             src="/bg.png"
             alt="Auto import achtergrond"
@@ -25,27 +24,56 @@ export default function HomePage() {
             className="object-cover object-center"
             sizes="100vw"
           />
-          {/* Donkere overlay — links donkerder voor leesbaarheid, rechts transparant zodat auto's zichtbaar zijn */}
-          <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/65 to-navy/25" />
-          <div className="absolute inset-0 bg-gradient-to-b from-navy/20 via-transparent to-primary/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/80 to-navy/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-navy/30" />
 
-          {/* Tekst — linksboven */}
-          <div className="relative z-10 container-main pt-16 md:pt-24 pb-56 md:pb-64">
-            <div className="max-w-lg">
-              <p className="text-white/75 text-sm md:text-base mb-4 font-medium drop-shadow">
-                Dé specialist in A-Z auto-import. Veilig, snel en vertrouwd.
-              </p>
-              <h1 className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-lg">
-                Auto importbegeleiding<br />en BPM aangifte
-              </h1>
+          <div className="relative z-10 container-main py-16 md:py-24 flex items-center min-h-[600px] md:min-h-[700px]">
+            <div className="grid lg:grid-cols-2 gap-10 xl:gap-16 items-center w-full">
+
+              {/* ── Links: tekst ── */}
+              <div>
+                <p className="text-white/70 text-sm md:text-base mb-4 font-medium">
+                  Dé specialist in A-Z auto-import. Veilig, snel en vertrouwd.
+                </p>
+                <h1 className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight mb-6">
+                  Auto importbegeleiding<br />en BPM aangifte
+                </h1>
+                <div className="flex flex-wrap gap-3 mb-10">
+                  <Link
+                    href="/import-stappenplan"
+                    className="px-6 py-3 bg-primary hover:bg-primary-dark text-white font-bold text-sm rounded-lg transition-colors shadow-lg shadow-primary/30"
+                  >
+                    Bekijk het stappenplan
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="px-6 py-3 border border-white/30 text-white hover:bg-white/10 font-semibold text-sm rounded-lg transition-colors"
+                  >
+                    Neem contact op
+                  </Link>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {[
+                    "RDW keuring binnen 2 werkdagen",
+                    "Meer dan 10 jaar ervaring",
+                    "Particulieren en bedrijven",
+                  ].map((item) => (
+                    <div key={item} className="flex items-center gap-2.5 text-white/70 text-sm">
+                      <svg className="w-4 h-4 text-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Rechts: calculator ── */}
+              <div className="w-full lg:max-w-md xl:max-w-lg mx-auto">
+                <HeroTabCard />
+              </div>
+
             </div>
-          </div>
-        </div>
-
-        {/* Form-card — grote overlap met de foto */}
-        <div className="relative z-10 -mt-44 md:-mt-52 pb-0">
-          <div className="container-main">
-            <HeroTabCard />
           </div>
         </div>
       </section>

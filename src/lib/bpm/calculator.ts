@@ -2,6 +2,7 @@ import { differenceInMonths } from "date-fns";
 import type {
   BpmInput,
   BpmResultaat,
+  BpmScenario,
   TariefSchijf,
   BrandstofTarief,
   TariefVergelijkingRegel,
@@ -13,6 +14,9 @@ import {
   getAvailableYears,
   AVAILABLE_TABLES,
 } from "./tableRegistry";
+
+/** Voertuigtypes waarvoor een personenauto-berekening beschikbaar is. */
+const ONDERSTEUNDE_TYPES = ["personenauto"] as const;
 
 /** Grens waarop NEDC→WLTP overgang plaatsvond (1 juli 2020). */
 const NEDC_GRENS = new Date("2020-07-01");
@@ -132,6 +136,15 @@ function calcBrutoBpmVoorJaar(
 
 /** Volledige BPM berekening voor personenauto. Returns BpmResultaat. */
 export function berekenBpm(input: BpmInput): BpmResultaat {
+  // ── 0. VoertuigType gating ──
+  if (!(ONDERSTEUNDE_TYPES as readonly string[]).includes(input.voertuigType)) {
+    throw new Error(
+      `VoertuigType '${input.voertuigType}' wordt nog niet ondersteund door de BPM-engine. ` +
+      `Ondersteunde types: ${ONDERSTEUNDE_TYPES.join(", ")}. ` +
+      `Bestelauto, motor en camper zijn in ontwikkeling.`
+    );
+  }
+
   const aannames: string[] = [];
   const waarschuwingen: string[] = [];
 
@@ -323,4 +336,165 @@ export function berekenBpm(input: BpmInput): BpmResultaat {
       statusOverridden,
     },
   };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Scenario optimizer
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Bereken BPM voor één specifieke combinatie van tariefjaar + CO₂-methode.
+ * Interne helper voor de optimizer — gooit geen errors maar retourneert null
+ * als de combinatie ongeldig is.
+ */
+function evalScenario(
+  input: BpmInput,
+  tariefjaar: number,
+  meetmethode: Meetmethode,
+  afschrijvingsPercentage: number
+): BpmScenario | null {
+  // CO₂-waarde kiezen op basis van meetmethode
+  let co2Waarde: number;
+  if (meetmethode === "nedc") {
+    if (typeof input.co2Nedc !== "number") return null; // NEDC-waarde ontbreekt
+    co2Waarde = input.co2Nedc;
+  } else {
+    co2Waarde = input.co2Wltp;
+  }
+
+  const { brutoBpm, dieselToeslag } = calcBrutoBpmVoorJaar(co2Waarde, input.brandstof, tariefjaar);
+  const restBpm = Math.round(brutoBpm * (1 - afschrijvingsPercentage / 100));
+
+  const reden =
+    meetmethode === "nedc"
+      ? `NEDC CO₂=${co2Waarde} g/km, tarief ${tariefjaar}`
+      : `WLTP CO₂=${co2Waarde} g/km, tarief ${tariefjaar}`;
+
+  return {
+    tariefjaar,
+    co2Methode: meetmethode,
+    co2Waarde,
+    brutoBpm,
+    dieselToeslag: dieselToeslag ?? undefined,
+    restBpm,
+    geselecteerd: false,
+    reden,
+  };
+}
+
+/**
+ * Berekent BPM optimaal door alle geldige scenario's door te rekenen en het
+ * scenario met de laagste rest-BPM te selecteren.
+ *
+ * Geldige scenario's per type auto:
+ * - Nieuw voertuig: alleen het tariefjaar van de registratiedatum (geen keuze).
+ * - Gebruikt voertuig zonder expliciet tariefjaar:
+ *     • Elk beschikbaar tariefjaartabel dat ≤ registratiejaar is.
+ *     • WLTP altijd beschikbaar.
+ *     • NEDC beschikbaar als DET < 1 juli 2020 én co2Nedc is opgegeven.
+ *
+ * Het resultaat is identiek aan berekenBpm() maar bevat tevens `scenarios` voor
+ * volledige transparantie over de gemaakte keuze.
+ *
+ * @throws Error als voertuigtype niet ondersteund wordt (zelfde als berekenBpm).
+ */
+export function berekenBpmOptimaal(input: BpmInput): BpmResultaat {
+  // ── 0. VoertuigType gating (delegeer naar berekenBpm voor de eigenlijke berekening) ──
+  if (!(ONDERSTEUNDE_TYPES as readonly string[]).includes(input.voertuigType)) {
+    throw new Error(
+      `VoertuigType '${input.voertuigType}' wordt nog niet ondersteund door de BPM-engine. ` +
+      `Ondersteunde types: ${ONDERSTEUNDE_TYPES.join(", ")}.`
+    );
+  }
+
+  const referentieDatum = input.datumRegistratieNL ?? new Date();
+  const registratieJaar = referentieDatum.getFullYear();
+
+  // Nieuw voertuig of handmatig tariefjaar → geen optimalisatie nodig
+  const effectiefStatus =
+    typeof input.kilometerstand === "number" &&
+    input.kilometerstand > 0 &&
+    input.kilometerstand < KM_NIEUW_GRENS &&
+    input.status === "gebruikt"
+      ? "nieuw"
+      : input.status;
+
+  if (effectiefStatus === "nieuw" || input.tariefjaar) {
+    // Geen scenario-optimalisatie mogelijk; gewone berekening
+    return berekenBpm(input);
+  }
+
+  // ── Bereken afschrijvingspercentage eenmalig (onafhankelijk van tariefjaar) ──
+  const maanden = berekenLeeftijdMaanden(input.datumEersteToelating, referentieDatum);
+  let afschrijvingsPercentage = 0;
+  const methode = input.afschrijvingsMethode ?? "forfaitair";
+
+  if (methode === "forfaitair") {
+    afschrijvingsPercentage = getForfaitairPercentage(maanden);
+  } else if (
+    methode === "koerslijst" &&
+    typeof input.consumentenprijs === "number" &&
+    typeof input.inkoopwaarde === "number" &&
+    input.consumentenprijs > 0
+  ) {
+    afschrijvingsPercentage = ((input.consumentenprijs - input.inkoopwaarde) / input.consumentenprijs) * 100;
+  } else if (
+    methode === "taxatierapport" &&
+    typeof input.taxatiewaarde === "number" &&
+    typeof input.consumentenprijs === "number" &&
+    input.consumentenprijs > 0
+  ) {
+    afschrijvingsPercentage = ((input.consumentenprijs - input.taxatiewaarde) / input.consumentenprijs) * 100;
+  } else {
+    // Fallback naar forfaitair
+    afschrijvingsPercentage = getForfaitairPercentage(maanden);
+  }
+  afschrijvingsPercentage = Math.min(95, Math.max(0, afschrijvingsPercentage));
+
+  // ── Bouw alle geldige scenario's ──
+  const isPreNedc = input.datumEersteToelating < NEDC_GRENS;
+  const geldigeJaren = getAvailableYears().filter((j) => j <= registratieJaar);
+
+  const scenarios: BpmScenario[] = [];
+
+  for (const jaar of geldigeJaren) {
+    // WLTP-scenario altijd proberen
+    const wltpScenario = evalScenario(input, jaar, "wltp", afschrijvingsPercentage);
+    if (wltpScenario) scenarios.push(wltpScenario);
+
+    // NEDC-scenario alleen voor pre-1-juli-2020 auto's met NEDC-waarde
+    if (isPreNedc && typeof input.co2Nedc === "number") {
+      const nedcScenario = evalScenario(input, jaar, "nedc", afschrijvingsPercentage);
+      if (nedcScenario) scenarios.push(nedcScenario);
+    }
+  }
+
+  if (scenarios.length === 0) {
+    // Geen scenario's gebouwd (geen tabellen ≤ registratiejaar); val terug op gewone berekening
+    return berekenBpm(input);
+  }
+
+  // ── Selecteer laagste rest-BPM ──
+  const beste = scenarios.reduce((min, s) => (s.restBpm < min.restBpm ? s : min));
+  beste.geselecteerd = true;
+
+  // ── Voer de definitieve berekening uit met het geselecteerde scenario ──
+  const optimaalInput: BpmInput = {
+    ...input,
+    tariefjaar: beste.tariefjaar,
+    meetmethode: beste.co2Methode,
+  };
+  const resultaat = berekenBpm(optimaalInput);
+
+  // Voeg scenario-toelichting toe
+  const andereScenarios = scenarios.filter((s) => !s.geselecteerd);
+  const hoeveel = andereScenarios.length;
+  resultaat.aannames.unshift(
+    `Optimaal scenario automatisch gekozen: tarief ${beste.tariefjaar}, ` +
+    `${beste.co2Methode.toUpperCase()} CO₂=${beste.co2Waarde} g/km → ` +
+    `rest-BPM €${beste.restBpm.toLocaleString("nl-NL")}. ` +
+    `(${hoeveel} alternatief${hoeveel !== 1 ? "en" : ""} geëvalueerd)`
+  );
+
+  return { ...resultaat, scenarios };
 }
